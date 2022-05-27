@@ -26,7 +26,7 @@ const start = async () => {
   try {
     await connectDB(connection_url);
     app.listen(port, () => {
-      console.log('Server started at 8080');
+      console.log(`Server started at ${port}`);
     });
   } catch (err) {
     console.log(err);
