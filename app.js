@@ -4,7 +4,8 @@ require('dotenv').config();
 const app = express();
 const taskRoutes = require('./routes/tasks');
 const notFound = require('./middlewares/not-found');
-const port = 8800;
+const errorHandleMiddleware = require('./middlewares/error-handler');
+const port = process.env.PORT || 8080;
 
 const connection_url = process.env.DB_URL;
 
@@ -18,11 +19,14 @@ app.use('/api/v1/tasks', taskRoutes);
 // handle 404
 app.use(notFound);
 
+// error handler
+app.use(errorHandleMiddleware);
+
 const start = async () => {
   try {
     await connectDB(connection_url);
     app.listen(port, () => {
-      console.log('Server started at 8800');
+      console.log(`Server started at ${port}`);
     });
   } catch (err) {
     console.log(err);
